@@ -1,0 +1,22 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+  requestLog:
+    timeZone: UTC
+
+logging:
+  level: INFO
+  appenders:
+    - type: file
+      currentLogFilename: ./logs/ontology-service.log
+      archivedLogFilenamePattern: ./logs/ontology-service-%d.log.gz
+      archivedFileCount: 5
+      timeZone: UTC
+    - type: console
+      threshold: INFO
+
+
