@@ -26,9 +26,9 @@
         </dependency>
 
         <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-core</artifactId>
-            <version>${dropwizard.version}</version>
+            <groupId>atharvai</groupId>
+            <artifactId>graph-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
