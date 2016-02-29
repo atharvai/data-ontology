@@ -9,6 +9,8 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,23 +26,23 @@ public class VertexResource extends BaseResource {
     }
 
     @GET
-    public String getVextex(@QueryParam("id") UUID id) throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response getVextex(@QueryParam("id") UUID id) throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id == null) {
-            return mapper.writeValueAsString(IteratorUtils.asList(this.graph.vertices()));
+            return Response.ok(mapper.writeValueAsString(IteratorUtils.asList(this.graph.vertices()))).build();
         } else {
-            return mapper.writeValueAsString(IteratorUtils.asList(this.g.V(id)));
+            return Response.ok(mapper.writeValueAsString(IteratorUtils.asList(this.g.V(id)))).build();
         }
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public String addVertex(List<Map<String, Object>> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response addVertex(List<Map<String, Object>> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         List<Vertex> vertices = new ArrayList<Vertex>();
         for (Map<String, Object> vertexDatum : vertexData) {
             Vertex vertex = createVertex(vertexDatum);
             vertices.add(vertex);
         }
-        return mapper.writeValueAsString(vertices);
+        return Response.status(Response.Status.CREATED).entity(mapper.writeValueAsString(vertices)).build();
     }
 
     private Vertex createVertex(Map<String, Object> vertexData) {
@@ -54,12 +56,12 @@ public class VertexResource extends BaseResource {
     }
 
     @POST
-    public String upsertVertex(@QueryParam("id") UUID id, Map<String, Object> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response upsertVertex(@QueryParam("id") UUID id, Map<String, Object> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id != null) {
             List vertices = updateVertex(id, vertexData);
-            return mapper.writeValueAsString(vertices);
+            return Response.ok(mapper.writeValueAsString(vertices)).build();
         }
-        return "{\"error\":\"Must provide a valid id as a query parameter\"}";
+        return Response.notModified().entity("{\"error\":\"Must provide a valid id as a query parameter\"}").build();
     }
 
     private List updateVertex(UUID id, Map<String, Object> vertexData) {

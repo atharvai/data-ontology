@@ -9,6 +9,7 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,22 +34,22 @@ public class EdgeResource extends BaseResource{
     }
 
     @GET
-    public String getEdge(@QueryParam("id") UUID id) throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response getEdge(@QueryParam("id") UUID id) throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id == null) {
-            return mapper.writeValueAsString(IteratorUtils.asList(this.graph.edges()));
+            return Response.ok(mapper.writeValueAsString(IteratorUtils.asList(this.graph.edges()))).build();
         } else {
-            return mapper.writeValueAsString(IteratorUtils.asList(this.g.E(id)));
+            return Response.ok(mapper.writeValueAsString(IteratorUtils.asList(this.g.E(id)))).build();
         }
     }
 
     @PUT
-    public String addEdges(Map<String, Object> data) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response addEdges(Map<String, Object> data) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (data.get("targetVertex") instanceof List & data.get("sourceVertex") instanceof String) {
-            return addMultipleEdges(data);
+            return Response.status(Response.Status.CREATED).entity(addMultipleEdges(data)).build();
         } else if (data.get("targetVertex") instanceof String) {
-            return addEdge(data);
+            return Response.status(Response.Status.CREATED).entity(addEdge(data)).build();
         }
-        return "{\"error\":\"targetVertex is not a String or List of String\"}";
+        return Response.notModified().entity("{\"error\":\"targetVertex is not a String or List of String\"}").build();
     }
 
     /***
@@ -103,17 +104,17 @@ public class EdgeResource extends BaseResource{
     }
 
     @POST
-    public String upsertEdge(@QueryParam("id") UUID id, Map<String, Object> edgeData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response upsertEdge(@QueryParam("id") UUID id, Map<String, Object> edgeData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id == null) {
-            return "{\"error\":\"Must provide a valid id as a query parameter\"}";
+            return Response.notModified().entity("{\"error\":\"Must provide a valid id as a query parameter\"}").build();
         } else {
             String edgeLabel = edgeData.get("label").toString().toUpperCase();
             Vertex srcVertex = IteratorUtils.asList(g.V(edgeData.get("sourceVertex").toString())).size() > 0 ? g.V(edgeData.get("sourceVertex").toString()).next() : null;
             Vertex targetVertex = IteratorUtils.asList(g.V(edgeData.get("targetVertex").toString())).size() > 0 ? g.V(edgeData.get("targetVertex").toString()).next() : null;
             if (srcVertex == null) {
-                return "{\"error\":\"sourceVertex does not exist\"}";
+                return Response.notModified().entity("{\"error\":\"sourceVertex does not exist\"}").build();
             } else if (targetVertex == null) {
-                return "{\"error\":\"targetVertex does not exist\"}";
+                return Response.notModified().entity("{\"error\":\"targetVertex does not exist\"}").build();
             }
 
             List edges = IteratorUtils.asList(g.E(id).hasLabel(edgeLabel));
@@ -122,9 +123,9 @@ public class EdgeResource extends BaseResource{
                 for (String key : updProperties.keySet()) {
                     ((Edge) edges.get(0)).property(key, updProperties.get(key));
                 }
-                return mapper.writeValueAsString(edges);
+                return Response.ok(mapper.writeValueAsString(edges)).build();
             } else {
-                return "{\"error\":\"Multiple Edges found with ID: " + id + "\"}";
+                return Response.notModified().entity("{\"error\":\"Multiple Edges found with ID: " + id + "\"}").build();
             }
 
         }

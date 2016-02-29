@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/graph")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,15 +19,15 @@ public class GraphService extends BaseResource {
 
     @GET
     @Path("/info")
-    public String getGraph() throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
-        return mapper.writeValueAsString(graph.variables().asMap());
+    public Response getGraph() throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+        return Response.ok(graph.variables().asMap()).build();
     }
 
     @GET
     @Path("/save")
-    public String saveGraph() {
+    public Response saveGraph() {
         Boolean b = gi.saveGraph();
-        return b.toString();
+        return Response.accepted().entity(b).build();
     }
 
 }
