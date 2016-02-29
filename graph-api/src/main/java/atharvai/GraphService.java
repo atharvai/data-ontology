@@ -28,7 +28,6 @@ public class GraphService {
     public String getGraph() throws JsonProcessingException {
         GraphInstance gi = GraphInstance.getInstance(this.cfg);
         Graph graph = gi.getGraph();
-        graph.addVertex("test");
         return mapper.writeValueAsString(graph.variables().asMap());
     }
 

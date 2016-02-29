@@ -1,13 +1,10 @@
 package atharvai.webresources;
 
 import atharvai.GraphConfig;
-import atharvai.GraphInstance;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import org.apache.tinkerpop.gremlin.structure.*;
-import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerVertexProperty;
+import org.apache.tinkerpop.gremlin.structure.Edge;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
-import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,16 +15,10 @@ import java.util.UUID;
 
 @Path("/edge")
 @Produces(MediaType.APPLICATION_JSON)
-public class EdgeResource {
-    private ObjectMapper mapper = null;
-    private Graph graph = null;
-    private GraphTraversalSource g = null;
+public class EdgeResource extends BaseResource{
 
     public EdgeResource(GraphConfig cfg) {
-        GraphInstance gi = GraphInstance.getInstance(cfg);
-        this.graph = gi.getGraph();
-        this.g = gi.getTraveralSource();
-        this.mapper = gi.getMapper();
+        super(cfg);
     }
 
     private List<Object> mapToVarargs(Map<String,Object> map) {
