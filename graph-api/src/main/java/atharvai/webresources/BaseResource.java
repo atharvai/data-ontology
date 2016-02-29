@@ -10,9 +10,10 @@ public class BaseResource {
     public ObjectMapper mapper = null;
     public Graph graph = null;
     public GraphTraversalSource g = null;
+    public GraphInstance gi = null;
 
     public BaseResource(GraphConfig cfg) {
-        GraphInstance gi = GraphInstance.getInstance(cfg);
+        gi = GraphInstance.getInstance(cfg);
         this.graph = gi.getGraph();
         this.g = gi.getTraveralSource();
         this.mapper = gi.getMapper();
