@@ -7,33 +7,46 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataSourceFactory {
     Map<String,Class> connectionMap = new HashMap<String, Class>();
+    Map<String,SourceInterface> sourceMap = new HashMap<String, SourceInterface>();
+    private static DataSourceFactory instance = new DataSourceFactory();
 
-    DataSourceFactory() {
-        connectionMap.put("postgres",PostgresqlSource.class);
+    private DataSourceFactory() {}
+
+    public static DataSourceFactory getFactory() {
+        return instance;
     }
-    public Connection getConnection(String connType) {
+
+    public SourceInterface getDataSource(String connType) {
+        connType = connType.toLowerCase();
         AppConfig appConfig = AppConfig.getInstance();
-        DataSourceConfig dataSourceConfig = appConfig.getDataSourceConfig();
-        try {
-            Class<?> cls = Class.forName("atharvai.sources."+connType+"Source");
-            Constructor<?> constructor = cls.getConstructor();
-            Object connectionObj = constructor.newInstance();
-            return (Connection) connectionObj;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        List<DataSourceConfig> dataSourceConfigList = appConfig.getDataSourceConfig();
+        DataSourceConfig dataSourceConfig = null;
+        if (sourceMap.keySet().contains(connType)) {
+            return sourceMap.get(connType);
         }
+        if (dataSourceConfigList.size() > 0 ) {
+            for (DataSourceConfig cfg : dataSourceConfigList) {
+                if (cfg.getType().equalsIgnoreCase(connType)) {
+                    dataSourceConfig = cfg;
+                    break;
+                }
+            }
+        }
+        if (dataSourceConfig != null){
+            PostgresqlSource connectionObj = new PostgresqlSource(dataSourceConfig);
+            sourceMap.put(connType,connectionObj);
+            return connectionObj;
+        }
+
         return null;
+    }
+
+    public Map<String,SourceInterface> getAllConnections() {
+        return sourceMap;
     }
 }

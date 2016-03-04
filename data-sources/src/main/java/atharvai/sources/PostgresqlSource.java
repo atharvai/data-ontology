@@ -9,15 +9,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class PostgresqlSource implements SourceInterface {
+public class PostgresqlSource extends BaseSource implements SourceInterface {
     private Connection conn = null;
 
-    PostgresqlSource() {
-        init();
+    PostgresqlSource(DataSourceConfig cfg) {
+        this.sourceConfig = cfg;
+        init(this.sourceConfig);
     }
-    public void init()  {
-        AppConfig appConfig = AppConfig.getInstance();
-        DataSourceConfig cfg = appConfig.getDataSourceConfig();
+
+    public void init(DataSourceConfig cfg)  {
         try {
             Class.forName("org.postgresql.Driver");
             String url = cfg.getConnectionUrl();
@@ -28,6 +28,21 @@ public class PostgresqlSource implements SourceInterface {
             e.printStackTrace();
         }
     }
+
+    public void closeConnection() throws SQLException {
+        if (!this.conn.isClosed())
+            this.conn.close();
+    }
+
+    public Boolean getConnectionState() throws SQLException {
+        return !this.conn.isClosed();
+    }
+
+    public Connection getConn(){
+        return this.conn;
+    }
+
+
 
     public List<Map<String, String>> getTableColumnList() {
         return null;

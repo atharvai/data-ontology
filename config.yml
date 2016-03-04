@@ -15,6 +15,6 @@ graph:
 
 datasource:
   - type: Postgresql
-    connectionUrl: jdbc:postgresql://
-    username: dummy
-    password: dummy
+    connectionUrl:
+    username:
+    password:

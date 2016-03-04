@@ -13,7 +13,6 @@ public class App extends Application<AppConfig>
 {
     public static void main( String[] args ) throws Exception
     {
-
         new App().run(args);
     }
 
@@ -28,12 +27,7 @@ public class App extends Application<AppConfig>
         conf.setValues(appConfig);
         environment.jersey().register(appConfig);
 
-        environment.jersey().register(new InfoResource());
-        environment.jersey().register(new GraphService());
-        environment.jersey().register(new VertexResource());
-        environment.jersey().register(new EdgeResource());
-        environment.jersey().register(new EngineResource());
-
+        environment.jersey().packages("atharvai.webresources");
         final HealthCheck healthCheck = new HealthCheck();
         environment.healthChecks().register("webservices",healthCheck);
     }
