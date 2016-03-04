@@ -1,5 +1,6 @@
 package atharvai;
 
+import atharvai.sources.ManagedDataSourceConnections;
 import atharvai.webresources.InfoResource;
 import atharvai.webresources.healthcheck.HealthCheck;
 import atharvai.webresources.EdgeResource;
@@ -26,7 +27,7 @@ public class App extends Application<AppConfig>
         AppConfig conf = AppConfig.getInstance();
         conf.setValues(appConfig);
         environment.jersey().register(appConfig);
-
+        environment.lifecycle().manage(new ManagedDataSourceConnections());
         environment.jersey().packages("atharvai.webresources");
         final HealthCheck healthCheck = new HealthCheck();
         environment.healthChecks().register("webservices",healthCheck);

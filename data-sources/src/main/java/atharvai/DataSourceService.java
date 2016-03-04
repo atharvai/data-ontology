@@ -1,13 +1,12 @@
 package atharvai;
 
 import atharvai.sources.DataSourceFactory;
-import atharvai.sources.SourceInterface;
+import atharvai.sources.Source;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +21,11 @@ public class DataSourceService {
     @GET
     @Path("/state")
     public Response testconnect(@QueryParam("type") String type) throws SQLException {
-        SourceInterface conn = DataSourceFactory.getFactory().getDataSource(type.toLowerCase());
+        Source conn = DataSourceFactory.getFactory().getDataSource(type.toLowerCase());
         Map<String,Boolean> state = new HashMap<String, Boolean>();
         state.put("state",conn.getConnectionState());
         return Response.ok(state).build();
     }
+
+
 }

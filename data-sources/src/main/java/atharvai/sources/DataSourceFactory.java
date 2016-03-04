@@ -3,16 +3,13 @@ package atharvai.sources;
 import atharvai.AppConfig;
 import atharvai.DataSourceConfig;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DataSourceFactory {
     Map<String,Class> connectionMap = new HashMap<String, Class>();
-    Map<String,SourceInterface> sourceMap = new HashMap<String, SourceInterface>();
+    Map<String,Source> sourceMap = new HashMap<String, Source>();
     private static DataSourceFactory instance = new DataSourceFactory();
 
     private DataSourceFactory() {}
@@ -21,7 +18,7 @@ public class DataSourceFactory {
         return instance;
     }
 
-    public SourceInterface getDataSource(String connType) {
+    public Source getDataSource(String connType) {
         connType = connType.toLowerCase();
         AppConfig appConfig = AppConfig.getInstance();
         List<DataSourceConfig> dataSourceConfigList = appConfig.getDataSourceConfig();
@@ -46,7 +43,7 @@ public class DataSourceFactory {
         return null;
     }
 
-    public Map<String,SourceInterface> getAllConnections() {
+    public Map<String,Source> getAllConnections() {
         return sourceMap;
     }
 }
