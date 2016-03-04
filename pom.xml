@@ -11,6 +11,8 @@
     <modules>
         <module>webservices</module>
         <module>graph-api</module>
+        <module>common-utils</module>
+        <module>data-sources</module>
     </modules>
 
     <properties>

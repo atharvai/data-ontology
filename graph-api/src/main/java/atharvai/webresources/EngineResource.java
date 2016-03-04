@@ -20,10 +20,6 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.TEXT_PLAIN)
 public class EngineResource extends BaseResource {
 
-    public EngineResource(GraphConfig cfg) {
-        super(cfg);
-    }
-
     @POST
     public Response executeScript(String script) throws ScriptException, JsonProcessingException {
         ScriptEngineManager manager = new ScriptEngineManager();

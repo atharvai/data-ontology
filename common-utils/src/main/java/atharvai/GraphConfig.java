@@ -2,7 +2,17 @@ package atharvai;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class GraphConfig {
+    private static GraphConfig instance = new GraphConfig();
+    private GraphConfig(){}
+
+    public static GraphConfig getInstance() {
+        return instance;
+    }
+
     @JsonProperty
     public String getGraphName() {
         return graphName;

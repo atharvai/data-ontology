@@ -20,10 +20,6 @@ import java.util.UUID;
 @Consumes(MediaType.APPLICATION_JSON)
 public class EdgeResource extends BaseResource{
 
-    public EdgeResource(GraphConfig cfg) {
-        super(cfg);
-    }
-
     private List<Object> mapToVarargs(Map<String,Object> map) {
         List<Object> result = new ArrayList<Object>();
         for (String key : map.keySet()){

@@ -12,11 +12,6 @@ import javax.ws.rs.core.Response;
 @Path("/graph")
 @Produces(MediaType.APPLICATION_JSON)
 public class GraphService extends BaseResource {
-
-    GraphService(GraphConfig cfg) {
-        super(cfg);
-    }
-
     @GET
     @Path("/info")
     public Response getGraph() throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {

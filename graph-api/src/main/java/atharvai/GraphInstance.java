@@ -18,12 +18,11 @@ public class GraphInstance {
     private static GraphInstance _instance = null;
     private ObjectMapper mapper = null;
 
-    GraphInstance() {
-    }
+    private GraphInstance() {}
 
-    public static GraphInstance getInstance(GraphConfig cfg) {
+    public static GraphInstance getInstance() {
         if (_instance == null) {
-            _cfg = cfg;
+            _cfg = AppConfig.getInstance().getGraphConfig();
             if (_graph == null) {
                 try {
                     Configuration graphConfig = new BaseConfiguration();
