@@ -1,7 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.AppConfig;
-import atharvai.GraphConfig;
 import atharvai.GraphInstance;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;

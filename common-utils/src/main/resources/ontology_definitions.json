@@ -1,0 +1,22 @@
+{
+  "vertexLabels": [
+    "TABLE",
+    "VIEW",
+    "COLUMN"
+  ],
+  "edgeLabels": [
+    "CONTAINS",
+    "IS_SYNONYM_OF"
+  ],
+  "vertexProperties": [
+    "name",
+    "data_type",
+    "description",
+    "dirty"
+  ],
+  "edgeProperties": [
+    "name",
+    "description",
+    "dirty"
+  ]
+}

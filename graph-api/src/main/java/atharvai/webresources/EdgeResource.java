@@ -1,6 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.GraphConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Edge;

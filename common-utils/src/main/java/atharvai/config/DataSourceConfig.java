@@ -1,4 +1,4 @@
-package atharvai;
+package atharvai.config;
 
 public class DataSourceConfig {
     public String getType() {

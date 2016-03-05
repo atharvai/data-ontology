@@ -1,6 +1,6 @@
 package atharvai.sources;
 
-import atharvai.DataSourceConfig;
+import atharvai.config.DataSourceConfig;
 
 public abstract class BaseSource implements Source {
     DataSourceConfig sourceConfig;

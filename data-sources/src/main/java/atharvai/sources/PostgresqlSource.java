@@ -1,6 +1,6 @@
 package atharvai.sources;
 
-import atharvai.DataSourceConfig;
+import atharvai.config.DataSourceConfig;
 import atharvai.datamodel.TableColumn;
 import atharvai.datamodel.TableColumnComment;
 import org.apache.commons.dbutils.QueryRunner;
@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class PostgresqlSource extends BaseSource implements Source {
     private Connection conn = null;

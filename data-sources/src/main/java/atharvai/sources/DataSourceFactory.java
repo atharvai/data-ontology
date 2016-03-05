@@ -1,7 +1,7 @@
 package atharvai.sources;
 
-import atharvai.AppConfig;
-import atharvai.DataSourceConfig;
+import atharvai.config.AppConfig;
+import atharvai.config.DataSourceConfig;
 
 import java.util.HashMap;
 import java.util.List;

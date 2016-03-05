@@ -1,6 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.GraphConfig;
 import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
 

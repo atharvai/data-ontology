@@ -1,6 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.GraphConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;

@@ -4,7 +4,7 @@ import io.dropwizard.lifecycle.Managed;
 
 import java.util.Map;
 
-public class ManagedDataSourceConnections implements Managed{
+public class ManagedDataSourceConnections implements Managed {
     public void start() throws Exception {
 
     }
