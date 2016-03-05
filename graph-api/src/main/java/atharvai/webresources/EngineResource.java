@@ -1,6 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.GraphConfig;
 import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 import org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException;
 
@@ -19,10 +18,6 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.TEXT_PLAIN)
 public class EngineResource extends BaseResource {
-
-    public EngineResource(GraphConfig cfg) {
-        super(cfg);
-    }
 
     @POST
     public Response executeScript(String script) throws ScriptException, JsonProcessingException {

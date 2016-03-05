@@ -1,4 +1,4 @@
-package atharvai.resources.healthcheck;
+package atharvai.webresources.healthcheck;
 
 public class HealthCheck extends com.codahale.metrics.health.HealthCheck {
     @Override

@@ -12,3 +12,9 @@ logging:
 graph:
   graphName: test
   graphsonPath: test.graphson
+
+datasource:
+  - type: Postgresql
+    connectionUrl:
+    username:
+    password:

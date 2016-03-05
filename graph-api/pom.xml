@@ -46,6 +46,11 @@
             <artifactId>tinkergraph-gremlin</artifactId>
             <version>${gremlin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>atharvai</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 </project>

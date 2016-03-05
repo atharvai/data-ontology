@@ -1,6 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.GraphConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Edge;
@@ -19,10 +18,6 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EdgeResource extends BaseResource{
-
-    public EdgeResource(GraphConfig cfg) {
-        super(cfg);
-    }
 
     private List<Object> mapToVarargs(Map<String,Object> map) {
         List<Object> result = new ArrayList<Object>();

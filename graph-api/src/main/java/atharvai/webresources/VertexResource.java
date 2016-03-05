@@ -1,6 +1,5 @@
 package atharvai.webresources;
 
-import atharvai.GraphConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
@@ -10,7 +9,6 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +18,6 @@ import java.util.UUID;
 @Path("/vertex")
 @Produces(MediaType.APPLICATION_JSON)
 public class VertexResource extends BaseResource {
-
-    public VertexResource(GraphConfig cfg) {
-        super(cfg);
-    }
 
     @GET
     public Response getVextex(@QueryParam("id") UUID id) throws JsonProcessingException, org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {

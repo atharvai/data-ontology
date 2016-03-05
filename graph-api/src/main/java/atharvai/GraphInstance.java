@@ -1,11 +1,12 @@
 package atharvai;
 
+import atharvai.config.AppConfig;
+import atharvai.config.GraphConfig;
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.io.IoCore;
-import org.apache.tinkerpop.gremlin.structure.io.graphson.GraphSONMapper;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.apache.tinkerpop.shaded.jackson.databind.ObjectMapper;
 
@@ -18,12 +19,11 @@ public class GraphInstance {
     private static GraphInstance _instance = null;
     private ObjectMapper mapper = null;
 
-    GraphInstance() {
-    }
+    private GraphInstance() {}
 
-    public static GraphInstance getInstance(GraphConfig cfg) {
+    public static GraphInstance getInstance() {
         if (_instance == null) {
-            _cfg = cfg;
+            _cfg = AppConfig.getInstance().getGraphConfig();
             if (_graph == null) {
                 try {
                     Configuration graphConfig = new BaseConfiguration();

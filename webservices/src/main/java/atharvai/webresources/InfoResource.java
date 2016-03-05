@@ -1,4 +1,4 @@
-package atharvai.resources;
+package atharvai.webresources;
 
 import com.codahale.metrics.annotation.Timed;
 
