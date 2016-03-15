@@ -4,13 +4,15 @@ import atharvai.OntologyDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Singleton;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Singleton
 public class OntologyConfig {
-    public static final String ONTOLOGY_DEFINITIONS_JSON = "ontology_definitions.json";
+    private static final String ONTOLOGY_DEFINITIONS_JSON = "ontology_definitions.json";
     private static OntologyConfig instance = new OntologyConfig();
 
     private OntologyConfig() {
@@ -27,7 +29,7 @@ public class OntologyConfig {
     public OntologyDefinition getDefinitions() throws IOException {
         if (ontologyDefinition == null) {
             if (Files.exists(Paths.get(ONTOLOGY_DEFINITIONS_JSON))) {
-                InputStream inF = this.getClass().getResourceAsStream(ONTOLOGY_DEFINITIONS_JSON);
+                InputStream inF = this.getClass().getClassLoader().getResourceAsStream(ONTOLOGY_DEFINITIONS_JSON);
                 ontologyDefinition = mapper.readValue(inF, OntologyDefinition.class);
                 inF.close();
             } else {
