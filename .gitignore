@@ -5,3 +5,5 @@
 
 logs/
 *.graphson
+
+node_modules/
