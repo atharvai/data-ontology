@@ -26,8 +26,8 @@ public class App extends Application<AppConfig>
 
         AppConfig conf = AppConfig.getInstance();
         conf.setValues(appConfig);
-        environment.jersey().register(appConfig);
-        environment.jersey().packages("atharvai.webresources");
+//        environment.jersey().register(appConfig);
+        environment.jersey().packages("atharvai");
 
         OntologyConfig.getInstance().getDefinitions();
 
