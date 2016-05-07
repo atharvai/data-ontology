@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-@Path("/vertex")
+@Path("/graph/vertex")
 @Produces(MediaType.APPLICATION_JSON)
 public class VertexResource extends BaseResource {
 
