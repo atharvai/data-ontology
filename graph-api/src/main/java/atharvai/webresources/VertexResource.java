@@ -27,7 +27,7 @@ public class VertexResource extends BaseResource {
         }
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addVertex(List<Map<String, Object>> vertexData) throws IOException {
         List<Vertex> vertices = new ArrayList<Vertex>();
@@ -60,7 +60,7 @@ public class VertexResource extends BaseResource {
         }
     }
 
-    @POST
+    @PUT
     public Response upsertVertex(@QueryParam("id") UUID id, Map<String, Object> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id != null) {
             List vertices = updateVertex(id, vertexData);

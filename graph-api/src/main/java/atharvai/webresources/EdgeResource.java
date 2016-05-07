@@ -39,7 +39,7 @@ public class EdgeResource extends BaseResource{
         }
     }
 
-    @PUT
+    @POST
     public Response addEdges(Map<String, Object> data) throws IOException {
         if (data.get("targetVertex") instanceof List & data.get("sourceVertex") instanceof String) {
             Object result = addMultipleEdges(data);
@@ -118,7 +118,7 @@ public class EdgeResource extends BaseResource{
         }
     }
 
-    @POST
+    @PUT
     public Response upsertEdge(@QueryParam("id") UUID id, Map<String, Object> edgeData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id == null) {
             return Response.notModified().entity("{\"error\":\"Must provide a valid id as a query parameter\"}").build();
