@@ -7,7 +7,7 @@ server:
       port: 8081
 
 logging:
-  level: DEBUG
+  level: INFO
 
 graph:
   graphName: test

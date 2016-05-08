@@ -1,6 +1,7 @@
 package atharvai;
 
 import atharvai.config.AppConfig;
+import atharvai.config.OntologyConfig;
 import atharvai.webresources.healthcheck.HealthCheck;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -20,12 +21,15 @@ public class App extends Application<AppConfig>
 
     @Override
     public void run(AppConfig appConfig, Environment environment) throws Exception {
-        AppConfig conf = AppConfig.getInstance();
-        conf.setValues(appConfig);
-        environment.jersey().register(appConfig);
-
-        environment.jersey().packages("atharvai.webresources");
         final HealthCheck healthCheck = new HealthCheck();
         environment.healthChecks().register("webservices",healthCheck);
+
+        AppConfig conf = AppConfig.getInstance();
+        conf.setValues(appConfig);
+//        environment.jersey().register(appConfig);
+        environment.jersey().packages("atharvai");
+
+        OntologyConfig.getInstance().getDefinitions();
+
     }
 }

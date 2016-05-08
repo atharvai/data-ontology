@@ -1,5 +1,6 @@
 package atharvai.webresources;
 
+import atharvai.config.OntologyConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
@@ -9,13 +10,11 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 
-@Path("/vertex")
+@Path("/graph/vertex")
 @Produces(MediaType.APPLICATION_JSON)
 public class VertexResource extends BaseResource {
 
@@ -28,28 +27,40 @@ public class VertexResource extends BaseResource {
         }
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addVertex(List<Map<String, Object>> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
+    public Response addVertex(List<Map<String, Object>> vertexData) throws IOException {
         List<Vertex> vertices = new ArrayList<Vertex>();
+        List<Map<String, Object>> failedVertices = new ArrayList<Map<String, Object>>();
         for (Map<String, Object> vertexDatum : vertexData) {
             Vertex vertex = createVertex(vertexDatum);
-            vertices.add(vertex);
+            if (vertex != null)
+                vertices.add(vertex);
+            else
+                failedVertices.add(vertexDatum);
         }
-        return Response.status(Response.Status.CREATED).entity(mapper.writeValueAsString(vertices)).build();
+        Map<String,Object> response = new HashMap<String, Object>();
+        response.put("created",vertices);
+        response.put("invlid_labels",failedVertices);
+        return Response.status(Response.Status.CREATED).entity(mapper.writeValueAsString(response)).build();
     }
 
-    private Vertex createVertex(Map<String, Object> vertexData) {
+    private Vertex createVertex(Map<String, Object> vertexData) throws IOException {
         String vertexLabel = vertexData.get("label").toString();
-        Vertex vertex = graph.addVertex(vertexLabel);
-        Map<String, Object> properties = (Map<String, Object>) vertexData.get("properties");
-        for (String prop : properties.keySet()) {
-            vertex.property(VertexProperty.Cardinality.single, prop, properties.get(prop));
+        List<String> vertexLabels = OntologyConfig.getInstance().getDefinitions().getVertexLabels();
+        if (vertexLabels.contains(vertexLabel)) {
+            Vertex vertex = graph.addVertex(vertexLabel);
+            Map<String, Object> properties = (Map<String, Object>) vertexData.get("properties");
+            for (String prop : properties.keySet()) {
+                vertex.property(VertexProperty.Cardinality.single, prop, properties.get(prop));
+            }
+            return vertex;
+        } else {
+            return null;
         }
-        return vertex;
     }
 
-    @POST
+    @PUT
     public Response upsertVertex(@QueryParam("id") UUID id, Map<String, Object> vertexData) throws org.apache.tinkerpop.shaded.jackson.core.JsonProcessingException {
         if (id != null) {
             List vertices = updateVertex(id, vertexData);
